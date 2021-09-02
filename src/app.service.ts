@@ -11,7 +11,7 @@ import { DBService, ReadingSession } from './db.service';
 
 @Injectable()
 export class AppService {
-  constructor(private readonly DBService: DBService) {}
+  constructor(private readonly dBService: DBService) {}
 
   async resetChoices(
     data: ResetChoicesEvent['data'],
@@ -56,7 +56,7 @@ export class AppService {
     if (!gamebookId) throw new BadRequestException('Missing gamebookId');
     if (!progression) throw new BadRequestException('Missing progression');
 
-    const session = this.DBService.sessions.find(
+    const session = this.dBService.sessions.find(
       (s) => s.userId === userId && s.gamebookId === gamebookId,
     );
     if (!session)
@@ -80,13 +80,13 @@ export class AppService {
     if (!userId) throw new BadRequestException('Missing userId');
     if (!gamebookId) throw new BadRequestException('Missing gamebookId');
 
-    const sessionIndex = this.DBService.sessions.findIndex(
+    const sessionIndex = this.dBService.sessions.findIndex(
       (s) => s.gamebookId === gamebookId,
     );
-    if (sessionIndex >= 0) return { ...this.DBService.sessions[sessionIndex] };
+    if (sessionIndex >= 0) return { ...this.dBService.sessions[sessionIndex] };
 
     const session: ReadingSession = { gamebookId, userId, choices: [] };
-    this.DBService.sessions.push(session);
+    this.dBService.sessions.push(session);
 
     return session;
   }
